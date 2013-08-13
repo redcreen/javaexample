@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="objectsize" basedir="." default="jar">
+  <property name="classes" value="classes" />
+  <property name="jar.name" value="ObjectSizeFetcherAgent.jar" />
+  <property name="build.home" value="target" />
+<target name="compile" >
+   <delete dir="${classes}" />
+   <mkdir dir="${classes}" />
+   <javac deprecation="on" debug="off" nowarn="true"
+           srcdir="." 
+           destdir="${classes}" 
+           >
+           <compilerarg value="-Xlint"/>
+   </javac>
+</target>
+<delete dir="${build.home}"/>
+<mkdir dir="${build.home}"/>
+<target name="jar" depends="compile" description="Create jar and MANIFEST.MF">
+  <copy file="${classes}/C.class" todir="${build.home}" />
+
+  <!-- create the jar -->
+  <jar jarfile="${build.home}/${jar.name}" basedir="classes">
+    <!-- define MANIFEST.MF -->
+    <manifest>
+      <attribute name="Built-By" value="${user.name}" />
+      <attribute name="Premain-Class" value="ObjectSizeFetcher" />
+    </manifest>
+  </jar>
+  <delete dir="${classes}" />
+</target>
+</project>
